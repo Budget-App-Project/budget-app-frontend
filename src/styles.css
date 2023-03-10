@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+html, body, .fullheight { height: 100%; width: 100%; }
+.root {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+#banner {
+  height: 64px;
+  background-image: linear-gradient(140deg, blue, purple, darkred);
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  box-shadow: 0 2px 5px #0000004d;
+  display: flex;
+}
+
+#banner p {
+  color: white;
+  font-size: 28px;
+  height: fit-content;
+  margin: auto;
+}
