@@ -1,3 +1,19 @@
 <div class="root">
-    <div class="homepage">homepage</div>
+    <div class="homepage">
+        <form [formGroup]="form">
+                <legend>Login</legend>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input name="email" formControlName="email" matInput>
+                </mat-form-field>
+               
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input name="password" formControlName="password" [type]="hide ? 'password' : 'text'" matInput>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+                </mat-form-field>
+                
+                <button id="loginbutton" (click)="login()" mat-raised-button>Login</button>
+        </form>
+    </div>
 </div>
