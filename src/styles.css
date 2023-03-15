@@ -68,7 +68,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .menu__btn {
   position: fixed;
-  top: 31px;
+  top: 19px;
   left: 40px;
   width: 26px;
   height: 26px;
@@ -84,6 +84,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 2px;
   background-color: white;
   transition-duration: .5s;
+  top: 12px;
 }
 .menu__btn > span::before {
   content: '';

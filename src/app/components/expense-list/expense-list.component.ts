@@ -7,9 +7,4 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./expense-list.component.css']
 })
 export class ExpenseListComponent {
-  constructor(private authservice: AuthService) {
-  }
-  logout() {
-    this.authservice.logout();
-  }
 }
