@@ -4,11 +4,12 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry, shareReplay, tap } from 'rxjs/operators';
 import { User } from 'src/assets/definitions';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Injectable()
 
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   isAuthenticated(){
     return this.isLoggedIn();
@@ -18,7 +19,7 @@ export class AuthService {
     return this.http.post<User>('/api/login', {email, password})
         // this is just the HTTP call, 
         // we still need to handle the reception of the token
-        .pipe(tap((val) => val.idToken ? this.setSession(val) : alert('Invalid email or password')), shareReplay());
+        .pipe(tap((val) => val.idToken ? this.setSession(val) : console.log(val)), shareReplay());
   }
 
   private setSession(authResult: User) {
@@ -31,6 +32,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
+    this.router.navigateByUrl("/");
   }
 
   public isLoggedIn() {
