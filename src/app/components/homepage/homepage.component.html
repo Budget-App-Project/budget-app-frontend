@@ -13,7 +13,19 @@
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
                 </mat-form-field>
                 
-                <button id="loginbutton" (click)="login()" mat-raised-button>Login</button>
+                <button class="buttons" id="loginbutton" (click)="login()" mat-raised-button>Login</button>
+                <div id="orbetween">
+                    <div class="aroundor">
+                        <span class="topspan"></span>
+                        <span class="bottomspan"></span>
+                    </div>
+                    <p>OR</p>
+                    <div class="aroundor">
+                        <div class="topspan"></div>
+                        <div class="bottomspan"></div>
+                    </div>
+                </div>
+                <button class="buttons" id="signupbutton" (click)="signup = true" mat-raised-button>Sign Up</button>
         </form>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -6,11 +6,13 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  styleUrls: ['./homepage.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomepageComponent {
   form: FormGroup;
   hide: boolean = true;
+  signup: boolean = false;
   constructor(private fb: FormBuilder, 
     private authService: AuthService, 
     private router: Router) {

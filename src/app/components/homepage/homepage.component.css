@@ -27,10 +27,37 @@ legend {
     margin-right: auto;
 }
 
-#loginbutton {
+.buttons {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+}
+
+#orbetween {
+    display: flex;
+    flex-direction: row;
+}
+
+#orbetween > p {
+    width: fit-content;
+    margin: 10px;
+    font-size: 14px;
+}
+
+.aroundor {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.topspan {
+    width: 100%;
+}
+
+.bottomspan {
+    border: solid 1px;
+    width: 100%;
 }
 
 @media screen and (max-width: 660px) {
