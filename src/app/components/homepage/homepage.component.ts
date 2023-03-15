@@ -11,8 +11,9 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HomepageComponent {
   form: FormGroup;
+  signupform: FormGroup;
   hide: boolean = true;
-  signup: boolean = false;
+  showSignup: boolean = false;
   constructor(private fb: FormBuilder, 
     private authService: AuthService, 
     private router: Router) {
@@ -21,6 +22,12 @@ export class HomepageComponent {
         email: ['',Validators.required],
         password: ['',Validators.required]
       });
+
+      this.signupform = this.fb.group({
+        email: ['',Validators.required],
+        name: ['',Validators.required],
+        password: ['',Validators.required]
+      })
     }
     
     login() {
@@ -34,5 +41,15 @@ export class HomepageComponent {
                 }
               });
         }
+    }
+
+    signup() {
+      const val = this.signupform.value;
+
+      if (val.email && val.password && val.name) {
+        // create auth service for signup and then subscribe to it...
+        console.log("Signing up!")
+      }
+      
     }
 }

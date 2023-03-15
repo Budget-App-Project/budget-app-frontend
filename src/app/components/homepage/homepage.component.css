@@ -1,10 +1,10 @@
 .homepage {
     position: relative;
     display: flex;
+    flex-direction: column;
     margin: auto;
-    background-color: rgb(245, 245, 245);
-    width: 25rem;
-    height: 25rem;
+    width: 24rem;
+    height: 24rem;
     justify-content: center;
     align-items: center;
     background-size: cover;
@@ -12,6 +12,7 @@
     box-shadow:
     0px 0px 15px rgba(0, 0, 0, 0.5)
   ;
+  background-color: rgb(35, 35, 35);
 }
 
 form {
@@ -52,17 +53,25 @@ legend {
 }
 
 .topspan {
-    width: 100%;
+    width: 100px;
 }
 
 .bottomspan {
     border: solid 1px;
-    width: 100%;
+    width: 100px;
+}
+
+#signupoverlay {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    z-index: 12;
 }
 
 @media screen and (max-width: 660px) {
     .homepage {
         width: 19rem;
-        height: 19rem;
+        height: 21rem;
     }
 }
