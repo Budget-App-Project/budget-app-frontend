@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-expense',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-expense.component.css']
 })
 export class AddExpenseComponent {
-
+  constructor(private authservice: AuthService) {
+  }
+  logout() {
+    this.authservice.logout();
+  }
 }

@@ -134,5 +134,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
   #signout {
     right: 20px;
+    font-size: 12px;
+    height: 25px;
+    top: 19.5px;
+  }
+  .menu__item {
+    font-size: 16px;
   }
 }

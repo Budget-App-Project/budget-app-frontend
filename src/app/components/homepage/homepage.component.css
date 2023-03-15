@@ -32,3 +32,10 @@ legend {
     margin-left: auto;
     margin-right: auto;
 }
+
+@media screen and (max-width: 660px) {
+    .homepage {
+        width: 19rem;
+        height: 19rem;
+    }
+}
