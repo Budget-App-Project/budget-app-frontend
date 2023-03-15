@@ -52,7 +52,6 @@ export class HomepageComponent {
           .subscribe((val) => {
             if (val.idToken) {
               this.router.navigateByUrl('/expenselist');
-              alert("Thank you for signing up!")
             } else {
               if (val.userExists) {
                 alert("This user already exists")
