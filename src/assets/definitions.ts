@@ -3,4 +3,8 @@ interface User {
     expiresIn: number;
 }
 
-export {User}
+interface SignUpUser extends User {
+    userExists: boolean;
+}
+
+export {User, SignUpUser}

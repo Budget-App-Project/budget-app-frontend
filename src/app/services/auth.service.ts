@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, shareReplay, tap } from 'rxjs/operators';
-import { User } from 'src/assets/definitions';
+import { User, SignUpUser } from 'src/assets/definitions';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 
@@ -15,11 +15,21 @@ export class AuthService {
     return this.isLoggedIn();
   }
 
-  login(email:string, password:string ) {
-    return this.http.post<User>('/api/login', {email, password})
+  login(email: string, password: string ) {
+    return this.http.post<User>('/api/login', { email, password })
         // this is just the HTTP call, 
         // we still need to handle the reception of the token
-        .pipe(tap((val) => val.idToken ? this.setSession(val) : console.log(val)), shareReplay());
+        .pipe(tap((val) => val.idToken ? this.setSession(val) : alert("Incorrect email or password")), shareReplay());
+  }
+
+  signup(email: string, password: string, name: string) {
+    return this.http.post<SignUpUser>('api/signup', {email, name, password})
+      .pipe(tap(
+        (val) => {
+          if (val.idToken) {
+            this.setSession(val);
+          }
+        }))
   }
 
   private setSession(authResult: User) {
@@ -47,6 +57,22 @@ export class AuthService {
 
   isLoggedOut() {
     return !this.isLoggedIn();
+  }
+
+  validateLogin(email: string, password: string) {
+    if (email.includes('@') && email.includes('.') && password.length > 5) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  validateSignUp(email: string, name: string, password: string) {
+    if (email.includes('@') && email.includes('.') && password.length > 5 && name.length > 0) {
+      return true;
+    } else {
+      return false
+    }
   }
 
 }

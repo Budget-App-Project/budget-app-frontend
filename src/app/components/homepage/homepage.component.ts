@@ -19,21 +19,21 @@ export class HomepageComponent {
     private router: Router) {
       
       this.form = this.fb.group({
-        email: ['',Validators.required],
-        password: ['',Validators.required]
+        email: ['', [Validators.email, Validators.required]],
+        password: ['', [Validators.minLength(6), Validators.required]]
       });
 
       this.signupform = this.fb.group({
-        email: ['',Validators.required],
-        name: ['',Validators.required],
-        password: ['',Validators.required]
+        email: ['', [Validators.email, Validators.required]],
+        name: ['', Validators.required],
+        password: ['', [Validators.minLength(6), Validators.required]]
       })
     }
     
     login() {
       const val = this.form.value;
 
-      if (val.email && val.password) {
+      if (this.authService.validateLogin(val.email, val.password)) {
           this.authService.login(val.email, val.password)
               .subscribe((val) => {
                 if (val.idToken) {
@@ -46,10 +46,21 @@ export class HomepageComponent {
     signup() {
       const val = this.signupform.value;
 
-      if (val.email && val.password && val.name) {
+      if (this.authService.validateSignUp(val.email, val.name, val.password)) {
         // create auth service for signup and then subscribe to it...
-        console.log("Signing up!")
+        this.authService.signup(val.email, val.password, val.name)
+          .subscribe((val) => {
+            if (val.idToken) {
+              this.router.navigateByUrl('/expenselist');
+              alert("Thank you for signing up!")
+            } else {
+              if (val.userExists) {
+                alert("This user already exists")
+              } else {
+                alert("An unknow error has occured. Please try again later")
+              }
+            }
+          })
       }
-      
     }
 }
