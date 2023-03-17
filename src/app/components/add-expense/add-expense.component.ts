@@ -9,7 +9,6 @@ import { ExpenseService } from 'src/app/services/expense.service';
 })
 export class AddExpenseComponent {
   form: FormGroup;
-  isNecessary = true;
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.form = this.fb.group({
       price: ['', Validators.required],
