@@ -1,3 +1,42 @@
 <div class="root">
-    <div class="addexpense">Add Expense</div>
+    <div class="addexpense">
+        <form [formGroup]="form" (ngSubmit)="addExpense()">
+            <legend>Add an expense</legend>
+            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+                <mat-label>Amount</mat-label>
+                <input name="price" formControlName="price" matInput>
+                <mat-error>
+                    <small><!--warning text here--></small>
+                </mat-error>
+            </mat-form-field>
+           
+            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+                <mat-label>What was it for?</mat-label>
+                <input name="whatFor" formControlName="whatFor" matInput>
+                <mat-error>
+                    <small>This Field is Required</small>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+                <mat-label>When was it?</mat-label>
+                <input name="whatTime" formControlName="whatTime" matInput>
+                <mat-error>
+                    <small><!--warning text here--></small>
+                </mat-error>
+            </mat-form-field>
+
+            <div id="necessarycontainer">
+                <mat-label>Was it necessary?</mat-label>
+                <div id="slidercontainer">
+                    <p [ngStyle]="{opacity: (isNecessary) ? 0.5 : 1}">False</p>
+                    <mat-slide-toggle appearance="outline" formControlName="necessary" (click)="isNecessary = !isNecessary">
+                    </mat-slide-toggle>
+                    <p [ngStyle]="{opacity: (isNecessary) ? 1 : 0.5}">True</p>
+                </div>
+            </div>
+
+            <button type="submit" class="buttons" id="addexpensebutton" mat-raised-button>Add Expense</button>
+    </form>
+    </div>
 </div>

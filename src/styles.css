@@ -125,6 +125,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .hamburger-menu {
   width: 0;
+  position: absolute;
 }
 
 @media screen and (max-width: 660px) {

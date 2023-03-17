@@ -7,4 +7,9 @@ interface SignUpUser extends User {
     userExists: boolean;
 }
 
-export {User, SignUpUser}
+interface Expense {
+    price: string;
+
+}
+
+export {User, SignUpUser, Expense}

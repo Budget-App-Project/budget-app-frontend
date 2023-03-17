@@ -1,4 +1,62 @@
+.root {
+    padding-top: 32px;
+}
+
 .addexpense {
+    position: relative;
     display: flex;
+    flex-direction: column;
     margin: auto;
+    width: 24rem;
+    height: 30rem;
+    background-color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    border-radius: 50px;
+    box-shadow:
+    0px 0px 15px rgba(0, 0, 0, 0.5)
+  ;
+  transition: height 1s ease-in-out;
+}
+
+form {
+  z-index: 1;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+
+legend {
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttons {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#necessarycontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#slidercontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#slidercontainer > p {
+  margin-left: 20px;
+  margin-right: 20px;
+  transition: opacity 0.4s ease-in-out;
 }
