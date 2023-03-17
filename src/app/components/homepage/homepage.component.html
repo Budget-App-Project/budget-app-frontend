@@ -1,6 +1,6 @@
 <div class="root">
-    <div class="homepage" style="background-color: aliceblue;">
-        <form [formGroup]="form">
+    <div class="homepage" [ngStyle]="{height: (showSignup) ? '28rem' : '26rem'}">
+        <form [formGroup]="form" (ngSubmit)="login()" *ngIf="!showSignup">
                 <legend>Login</legend>
                 <mat-form-field appearance="outline" style="margin-bottom: 10px;">
                     <mat-label>Email</mat-label>
@@ -19,7 +19,31 @@
                     </mat-error>
                 </mat-form-field>
                 
-                <button class="buttons" id="loginbutton" (click)="login()" mat-raised-button>Login</button>
+                <button type="submit" class="buttons" id="loginbutton" mat-raised-button>Login</button>
+        </form>
+        <form id="signupform" [formGroup]="signupform" *ngIf="showSignup" (ngSubmit)="signup()">
+            <legend>Sign Up</legend>
+
+            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+                <mat-label>Name</mat-label>
+                <input name="name" formControlName="name" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+                <mat-label>Email</mat-label>
+                <input name="email" formControlName="email" matInput>
+            </mat-form-field>
+           
+            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+                <mat-label>Password</mat-label>
+                <input name="password" formControlName="password" [type]="hide ? 'password' : 'text'" matInput>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+                <mat-error *ngIf="signupform.hasError('password') && !signupform.hasError('required')">
+                    Minimum of 6 characters
+                </mat-error>
+            </mat-form-field>
+            
+            <button class="buttons" id="loginbutton" type="submit" mat-raised-button>Sign Up</button>
         </form>
         <div id="orbetween">
             <div class="aroundor">
@@ -32,33 +56,6 @@
                 <div class="bottomspan"></div>
             </div>
         </div>
-        <button class="buttons" id="signupbutton" (click)="showSignup = true" mat-raised-button>Sign Up</button>
-    </div>
-    <div id="signupoverlay" *ngIf="showSignup">
-        <div class="homepage">
-            <form id="signupform" [formGroup]="signupform">
-                <legend>Sign Up</legend>
-
-                <mat-form-field appearance="outline" style="margin-bottom: 10px;">
-                    <mat-label>Name</mat-label>
-                    <input name="name" formControlName="name" matInput>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" style="margin-bottom: 10px;">
-                    <mat-label>Email</mat-label>
-                    <input name="email" formControlName="email" matInput>
-                </mat-form-field>
-               
-                <mat-form-field appearance="outline" style="margin-bottom: 10px;">
-                    <mat-label>Password</mat-label>
-                    <input name="password" formControlName="password" [type]="hide ? 'password' : 'text'" matInput>
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
-                    <mat-error *ngIf="signupform.hasError('password') && !signupform.hasError('required')">
-                        Minimum of 6 characters
-                    </mat-error>
-                </mat-form-field>
-                
-                <button class="buttons" id="loginbutton" (click)="signup()" mat-raised-button>Sign Up</button>
-            </form>
+        <button class="buttons" id="signupbutton" (click)="showSignup = !showSignup" mat-raised-button>{{ showSignup ? "Go Back" : "Sign Up" }}</button>
     </div>
 </div>

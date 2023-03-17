@@ -10,7 +10,6 @@ import { ExpenseService } from 'src/app/services/expense.service';
 export class ExpenseListComponent {
   constructor(private expenseService: ExpenseService) {}
   getExpenseList() {
-    console.log("clicked");
-    this.expenseService.getExpenses().subscribe((val) => console.log(val));
+      this.expenseService.getExpenses().subscribe();
   }
 }
