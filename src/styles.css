@@ -12,7 +12,7 @@ body {
 }
 
 html {
-  background-color: transparent;
+  background-color: #333;
 }
 
 html, body, .fullheight { height: 100%; width: 100%; }
@@ -23,6 +23,14 @@ html, body, .fullheight { height: 100%; width: 100%; }
   position: relative;
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+svg#clouds {
+  position: fixed;
+  bottom: -160px;
+  left: -230px;
+  z-index: -10;
+  width: 1920px;
+}
 
 #banner {
   height: 64px;
