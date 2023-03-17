@@ -14,11 +14,17 @@ export class AddExpenseComponent {
     this.form = this.fb.group({
       price: ['', Validators.required],
       whatFor: ['', Validators.required],
-      whatTime: ['', Validators.required],
+      whatTime: [new Date(), Validators.required],
       necessary: [false, Validators.required],
     })
   }
   addExpense() {
-    console.log("add expense function")
+    const {price, whatFor, whatTime, necessary} = this.form.value;
+    if (this.expenseService.validateExpense(price.toString(), whatFor, whatTime)) {
+      console.log(whatTime);
+      // this.expenseService.addExpense(price.toString(), whatFor, whatTime, necessary).subscribe((val) => console.log(val))
+    } else {
+      alert("Error validating fields, please try again later");
+    }
   }
 }

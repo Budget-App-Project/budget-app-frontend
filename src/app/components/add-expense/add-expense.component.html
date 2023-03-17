@@ -2,32 +2,35 @@
     <div class="addexpense">
         <form [formGroup]="form" (ngSubmit)="addExpense()">
             <legend>Add an expense</legend>
-            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+            <mat-form-field appearance="fill" floatLabel="always" style="margin-bottom: 10px;">
                 <mat-label>Amount</mat-label>
-                <input name="price" formControlName="price" matInput>
+                <input name="price" formControlName="price" type="number" placeholder="0" matInput>
+                <span matTextPrefix>$&nbsp;</span>
                 <mat-error>
-                    <small><!--warning text here--></small>
+                    <small>This Field is Required</small>
                 </mat-error>
             </mat-form-field>
            
-            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
-                <mat-label>What was it for?</mat-label>
-                <input name="whatFor" formControlName="whatFor" matInput>
+            <mat-form-field appearance="fill" floatLabel="always" style="margin-bottom: 10px;">
+                <mat-label>Expense type</mat-label>
+                <input name="whatFor" formControlName="whatFor" placeholder="E.g. Groceries" matInput>
                 <mat-error>
                     <small>This Field is Required</small>
                 </mat-error>
             </mat-form-field>
             
-            <mat-form-field appearance="outline" style="margin-bottom: 10px;">
-                <mat-label>When was it?</mat-label>
-                <input name="whatTime" formControlName="whatTime" matInput>
+            <mat-form-field appearance="fill" floatLabel="always" style="margin-bottom: 10px;">
+                <mat-label>Choose a date</mat-label>
+                <input name="whatTime" formControlName="whatTime" [matDatepicker]="picker" placeholder="3/14/1999" matInput>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
                 <mat-error>
-                    <small><!--warning text here--></small>
+                    <small>This Field is Required</small>
                 </mat-error>
             </mat-form-field>
 
             <div id="necessarycontainer">
-                <mat-label>Was it necessary?</mat-label>
+                <mat-label>Necessary expense</mat-label>
                 <div id="slidercontainer">
                     <p [ngStyle]="{opacity: (isNecessary) ? 0.5 : 1}">False</p>
                     <mat-slide-toggle appearance="outline" formControlName="necessary" (click)="isNecessary = !isNecessary">

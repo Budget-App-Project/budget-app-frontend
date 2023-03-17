@@ -8,8 +8,18 @@ interface SignUpUser extends User {
 }
 
 interface Expense {
+    id: number;
     price: string;
-
+    whatFor: string;
+    whatTime: Object;
+    necessary: boolean;
+    user_id: number;
 }
 
-export {User, SignUpUser, Expense}
+interface SuccessResponseModel {
+    success: string;
+    getSuccess: Function;
+    setSuccess: Function;
+}
+
+export {User, SignUpUser, Expense, SuccessResponseModel}
