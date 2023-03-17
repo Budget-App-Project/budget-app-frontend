@@ -42,4 +42,11 @@
             <button type="submit" class="buttons" id="addexpensebutton" mat-raised-button>Add Expense</button>
     </form>
     </div>
+    <div id="successmodal" *ngIf="success">
+        <div id="loweropacity"></div>
+        <div id="insidemodal">
+            Successfully saved expense!
+            <button class="buttons" id="dismissmodalbutton" (click)="success = false" mat-raised-button style="margin-top: 25px; background-color: slategray;">Okay</button>
+        </div>
+    </div>
 </div>

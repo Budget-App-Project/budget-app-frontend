@@ -18,8 +18,6 @@ interface Expense {
 
 interface SuccessResponseModel {
     success: string;
-    getSuccess: Function;
-    setSuccess: Function;
 }
 
 export {User, SignUpUser, Expense, SuccessResponseModel}

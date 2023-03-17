@@ -9,6 +9,7 @@ import { ExpenseService } from 'src/app/services/expense.service';
 })
 export class AddExpenseComponent {
   form: FormGroup;
+  success = false;
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.form = this.fb.group({
       price: ['', Validators.required],
@@ -20,7 +21,7 @@ export class AddExpenseComponent {
   addExpense() {
     const {price, whatFor, whatTime, necessary} = this.form.value;
     if (this.expenseService.validateExpense(price.toString(), whatFor, whatTime)) {
-      this.expenseService.addExpense(price.toString(), whatFor, whatTime, necessary).subscribe((val) => console.log(val))
+      this.expenseService.addExpense(price.toString(), whatFor, whatTime, necessary).subscribe((val) => val.success ? this.success = true : alert("There was a problem processing your request"))
     } else {
       alert("Error validating fields, please try again later");
     }
