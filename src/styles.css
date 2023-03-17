@@ -8,7 +8,13 @@
 
 body {
   font-family: "Poppins", sans-serif;
+  background-color: transparent;
 }
+
+html {
+  background-color: transparent;
+}
+
 html, body, .fullheight { height: 100%; width: 100%; }
 .root {
   display: flex;
@@ -104,7 +110,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin: 0;
   padding: 80px 0;
   list-style: none;
-  background-color: #ECEFF1;
+  background-color: rgb(236, 239, 241);
   box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
   transition-duration: .5s;
   z-index: 1;
@@ -132,7 +138,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   #banner p {
     font-size: 18px;
   }
-  menu__btn {
+  .menu__btn {
     left: 20px;
   }
   #signout {
