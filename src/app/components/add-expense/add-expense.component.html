@@ -12,7 +12,7 @@
             </mat-form-field>
            
             <mat-form-field appearance="fill" floatLabel="always" style="margin-bottom: 10px;">
-                <mat-label>Expense type</mat-label>
+                <mat-label>Type</mat-label>
                 <input name="whatFor" formControlName="whatFor" placeholder="E.g. Groceries" matInput>
                 <mat-error>
                     <small>This Field is Required</small>
@@ -20,7 +20,7 @@
             </mat-form-field>
             
             <mat-form-field appearance="fill" floatLabel="always" style="margin-bottom: 10px;">
-                <mat-label>Choose a date</mat-label>
+                <mat-label>When</mat-label>
                 <input name="whatTime" formControlName="whatTime" [matDatepicker]="picker" placeholder="3/14/1999" matInput>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -30,7 +30,7 @@
             </mat-form-field>
 
             <div id="necessarycontainer">
-                <mat-label>Necessary expense</mat-label>
+                <mat-label>Necessary</mat-label>
                 <div id="slidercontainer">
                     <p [ngStyle]="{opacity: (form.value.necessary) ? 0.5 : 1}">False</p>
                     <mat-slide-toggle appearance="outline" formControlName="necessary">
