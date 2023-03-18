@@ -99,3 +99,9 @@ legend {
 transition: height 1s ease-in-out;
 z-index: 16;
 }
+
+@media screen and (max-width: 660px) {
+  .addexpense {
+    width: 20rem;
+  }
+}

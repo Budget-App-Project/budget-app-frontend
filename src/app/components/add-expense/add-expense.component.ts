@@ -5,7 +5,7 @@ import { ExpenseService } from 'src/app/services/expense.service';
 @Component({
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
-  styleUrls: ['./add-expense.component.css']
+  styleUrls: ['./add-expense.component.scss']
 })
 export class AddExpenseComponent {
   form: FormGroup;
