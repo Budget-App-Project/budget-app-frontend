@@ -10,9 +10,7 @@ export class LoggedInGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-      console.log('CanActivate notloggedin called');
-    let isNotLoggedIn = !this.authService.isAuthenticated();
-    if (isNotLoggedIn){
+    if (!this.authService.isAuthenticated()){
       return true
     } else {
       this.router.navigate(['/expenselist']);
