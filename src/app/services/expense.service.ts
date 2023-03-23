@@ -6,8 +6,14 @@ import { Expense, SuccessResponseModel } from 'src/assets/definitions';
 export class ExpenseService {
   constructor(private http: HttpClient) { }
 
-  getExpenses() {
-      return this.http.get<Array<Expense>>("/api/expenses");
+  getExpenses(page: number, startDate: Date, endDate: Date) {
+      return this.http.get<Array<Expense>>("/api/expenses", {
+        params: {
+          page,
+          startDate: startDate.valueOf(),
+          endDate: endDate.valueOf()
+        }
+      });
   }
 
   addExpense(price: string, whatFor: string, whatTime: Object, necessary: boolean) {
