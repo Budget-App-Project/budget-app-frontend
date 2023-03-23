@@ -95,7 +95,7 @@ svg#clouds {
 .menu__btn > span,
 .menu__btn > span::before,
 .menu__btn > span::after {
-  background-image: linear-gradient(white, white);
+  background-image: linear-gradient(white, white) !important;
   display: block;
   position: absolute;
   width: 100%;

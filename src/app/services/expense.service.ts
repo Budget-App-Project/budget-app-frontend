@@ -14,9 +14,9 @@ export class ExpenseService {
     return this.http.post<SuccessResponseModel>("/api/expenses/add", {price, whatFor, whatTime, necessary});
   }
 
-  validateExpense(price: string, whatFor: string, whatTime: Object) {
+  validateExpense(price: number, whatFor: string, whatTime: Object) {
     // if pass return true otherwise false
-    if (price.length > 0 && whatFor.length > 0 && whatTime.toString().length > 0) {
+    if (typeof price == 'number' && whatFor.length > 0 && whatTime.toString().length > 0) {
       return true
     } else {
       return false;

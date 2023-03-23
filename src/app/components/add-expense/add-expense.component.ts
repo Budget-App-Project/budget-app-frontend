@@ -20,8 +20,9 @@ export class AddExpenseComponent {
   }
   addExpense() {
     const {price, whatFor, whatTime, necessary} = this.form.value;
-    if (this.expenseService.validateExpense(price.toString(), whatFor, whatTime)) {
-      this.expenseService.addExpense(price.toString(), whatFor, whatTime, necessary).subscribe((val) => val.success ? this.success = true : alert("There was a problem processing your request"))
+    console.log(typeof price);
+    if (this.expenseService.validateExpense(price, whatFor, whatTime)) {
+      this.expenseService.addExpense(price, whatFor, whatTime, necessary).subscribe((val) => val.success ? this.success = true : alert("There was a problem processing your request"))
     } else {
       alert("Error validating fields, please try again later");
     }
