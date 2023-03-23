@@ -1,7 +1,21 @@
 <div class="root">
     <div class="expenselist" style="background-color: #E2DFD2 !important; color: black !important;">
-        <div class="topinformation"><!--This will house something like "expenses from the March 2023 or from the beginning of april to now etc"--></div>
-        <div class="filters"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv--></div>
+        <div class="topinformation"><!--This will Just say something like please select desired filters"--></div>
+        <div class="filters"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv-->
+            <form>
+                <div id="startDate"></div>
+                <div id="endDate"></div>
+                <div id="isItNecessary"></div>
+                <div id="expenseType"></div>
+                <div id="minMaxPrice"></div>
+                <div id="sortBy">
+                    <div id="price"></div>
+                    <div id="what_time"></div>
+                    <div id="ifNecessary"></div>
+                    <div id="whatType"></div>
+                </div>
+            </form>
+        </div>
         <div class="expensescontainer"><!-- This will be tha container for the actual expenses and will be scrollable -->
             <!-- In here the expenses will be mapped through and they will looke similar to the example-->
             <div class="expense">
