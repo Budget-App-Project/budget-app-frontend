@@ -69,16 +69,16 @@ svg#clouds {
 #menu__toggle {
   opacity: 0;
 }
-#menu__toggle:checked + .menu__btn > span {
+#menu__toggle:checked + .menu__btn > .lines {
   transform: rotate(45deg);
 }
-#menu__toggle:checked + .menu__btn > span::before {
-  top: 0;
-  transform: rotate(0deg);
+#menu__toggle:checked + .menu__btn > .topline {
+  top: 12px;
+  transform: rotate(45deg);
 }
-#menu__toggle:checked + .menu__btn > span::after {
-  top: 0;
-  transform: rotate(90deg);
+#menu__toggle:checked + .menu__btn > .bottomline {
+  top: 12px;
+  transform: rotate(135deg);
 }
 #menu__toggle:checked ~ .menu__box {
   left: 0 !important;
@@ -92,26 +92,26 @@ svg#clouds {
   cursor: pointer;
   z-index: 11;
 }
-.menu__btn > span,
-.menu__btn > span::before,
-.menu__btn > span::after {
-  background-image: linear-gradient(white, white) !important;
+.menu__btn > span {
   display: block;
   position: absolute;
   width: 100%;
   height: 2px;
   transition-duration: .5s;
+}
+
+.menu__btn > .lines {
   top: 12px;
 }
 
-.menu__btn > span::before {
-  content: '';
-  top: -8px;
+.menu__btn > .bottomline {
+  top: 20px;
 }
-.menu__btn > span::after {
-  content: '';
-  top: 8px;
+
+.menu__btn > .topline {
+  top: 4px;
 }
+
 .menu__box {
   display: block;
   position: fixed;
