@@ -18,6 +18,8 @@ export class ExpenseListComponent implements OnInit{
   referenceDate: Date = new Date();
   selectedValue: string;
   showFilters: boolean = false;
+  originalStart: Date;
+  originalEnd: Date;
   filters: string[] = [
     'Price',
     'Date'
@@ -33,6 +35,8 @@ export class ExpenseListComponent implements OnInit{
       necessary: [true, Validators.required],
     });
     this.selectedValue = this.filters[0];
+    this.originalStart = this.form.value.startDate;
+    this.originalEnd = this.form.value.endDate;
   }
 
   ngOnInit(): void {
@@ -49,7 +53,13 @@ export class ExpenseListComponent implements OnInit{
   }
 
   submitForm() {
-    console.log(this.expenses);
+    if (this.originalStart == this.form.value.startDate && this.originalEnd == this.form.value.endDate) {
+      console.log("same start and end")
+    } else {
+      console.log("different start and end")
+      this.originalStart = this.form.value.startDate;
+      this.originalEnd = this.form.value.endDate;
+    }
     this.showFilters = false;
   }
 }
