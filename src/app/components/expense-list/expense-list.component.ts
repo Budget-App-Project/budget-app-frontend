@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { Expense } from 'src/assets/definitions';
+import { firstValueFrom } from 'rxjs';
 
 interface Filters {
   value: string;
@@ -60,27 +61,23 @@ export class ExpenseListComponent implements OnInit{
       const referenceDate = new Date();
       const referenceYear = referenceDate.getFullYear();
       const referenceMonth = referenceDate.getMonth();
-      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth, 0, 0, 0, 0, 0), new Date(referenceMonth == 11 ? referenceYear + 1 : referenceYear, referenceMonth === 11 ? 0 : referenceMonth + 1, 0, 0, 0, 0, 0)).subscribe((val) => { this.expenses = val; this.originalExpenses = val });
+      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth), new Date(referenceYear, referenceMonth + 1, 0, 23, 59, 59)).subscribe((val) => { this.expenses = val; this.originalExpenses = val });
   }
 
-  getExpenseList() {
-      this.expenseService.getExpenses(0, new Date(2023, 3, 0), new Date(2023, 3, 28)).subscribe();
-  }
-
-  submitForm() {
+  async submitForm() {
     const {startDate, endDate, includeUnnecessary, minValue, maxValue, sortBy} = this.form.value;
     if (this.originalStart.valueOf() <= startDate.valueOf() && this.originalEnd.valueOf() >= endDate.valueOf()) {
-      console.log("same start and end")
+      this.expenses = this.originalExpenses.filter((expense) => (new Date(expense.whatTime)).valueOf() >= startDate.valueOf() && (new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59)).valueOf() >= (new Date(expense.whatTime)).valueOf());
       // the date range has either not changed or the start and end dates are within the original range, no need to query backend
     } else {
       // the date range has changed and either the start, end, or both are outside the original range, query the backend
-      console.log("different start and end")
+      this.originalExpenses = await firstValueFrom(this.expenseService.getExpenses(0, startDate, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59)));
+      this.expenses = this.originalExpenses;
     }
     if (!includeUnnecessary) {
-      this.expenses = this.originalExpenses.filter((expense) => expense.necessary)
-    } else {
-      this.expenses = this.originalExpenses;
-    } if (minValue) {
+      this.expenses = this.expenses.filter((expense) => expense.necessary)
+    }
+    if (minValue) {
       this.expenses = this.expenses.filter((expense) => expense.price > minValue);
     }
     if (maxValue) {
