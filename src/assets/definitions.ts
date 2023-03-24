@@ -11,7 +11,7 @@ interface Expense {
     id: number;
     price: number;
     whatFor: string;
-    whatTime: Object;
+    whatTime: Date;
     necessary: boolean;
     userId: number;
 }

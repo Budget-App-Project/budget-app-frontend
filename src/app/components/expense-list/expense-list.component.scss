@@ -15,22 +15,23 @@
     font-size: larger;
     margin-top: 10px;
     margin-bottom: 10px;
+    position: relative;
 }
 
-.filters > form {
+.formcontainer > form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.5s ease-in-out;
-    width: 100vw;
+    width: 375px;
     position: absolute;
-    top: 105px;
-    left: 0px;
+    top: 2px;
+    border-radius: 25px;
 }
 
 .expensescontainer {
-    height: 78vh;
+    height: 55vh;
     width: 100vw;
 }
 
@@ -49,8 +50,56 @@
     justify-content: center;
 }
 
+form {
+    z-index: 1;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+  }
+  
+  legend {
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .buttons {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #necessarycontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  
+  #slidercontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  #slidercontainer > p {
+    margin-left: 20px;
+    margin-right: 20px;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  input[disabled] {
+    color: white;
+  }
+
 @media screen and (max-width: 660px) {
     .expensescontainer {
-        height: 80vh;
+        height: 55vh;
+    }
+    .formcontainer > form {
+        max-height: 70vh;
     }
 }

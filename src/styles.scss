@@ -143,6 +143,18 @@ svg#clouds {
   position: absolute;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(150, 150, 150);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(48, 51, 52);
+}
+
 @media screen and (max-width: 660px) {
   #banner p {
     font-size: 18px;
