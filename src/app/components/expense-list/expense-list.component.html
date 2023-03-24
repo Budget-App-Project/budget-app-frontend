@@ -1,19 +1,54 @@
 <div class="root">
-    <div class="expenselist" style="background-color: #E2DFD2 !important; color: black !important;">
+    <div class="expenselist">
         <div class="topinformation"><!--This will Just say something like please select desired filters"--></div>
         <div class="filters"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv-->
-            <form>
-                <div id="startDate"></div>
-                <div id="endDate"></div>
-                <div id="isItNecessary"></div>
-                <div id="expenseType"></div>
-                <div id="minMaxPrice"></div>
-                <div id="sortBy">
-                    <div id="price"></div>
-                    <div id="what_time"></div>
-                    <div id="ifNecessary"></div>
-                    <div id="whatType"></div>
+            <div id="aboveform" style="display: flex; margin-left: auto; margin-right: auto; width: fit-content;" (click)="showFilters = !showFilters">
+                Filters and Options
+            </div>
+            <form [formGroup]="form" (ngSubmit)="submitForm()" [ngStyle]="{height: showFilters ? '100vh' : '0vh'}" style="overflow: hidden;">
+
+                <mat-form-field appearance="fill" floatLabel="always" style="margin-top: 10px; height: fit-content;">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date" name="startDate" formControlName="startDate">
+                        <input matEndDate placeholder="End date" name="endDate" formControlName="endDate">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+
+                <div id="necessarycontainer">
+                    <mat-label>Necessary</mat-label>
+                    <div id="slidercontainer">
+                        <p [ngStyle]="{opacity: (form.value.necessary) ? 0.5 : 1}">False</p>
+                        <mat-slide-toggle appearance="outline" formControlName="necessary">
+                        </mat-slide-toggle>
+                        <p [ngStyle]="{opacity: (form.value.necessary) ? 1 : 0.5}">True</p>
+                    </div>
                 </div>
+
+                <mat-form-field appearance="fill" floatLabel="always">
+                    <mat-label>Min value</mat-label>
+                    <input matInput type="number" placeholder="E.g. 10.00">
+                    <span matTextPrefix>$&nbsp;</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" floatLabel="always">
+                    <mat-label>Max value</mat-label>
+                    <input matInput type="number" placeholder="E.g. 1500.00">
+                    <span matTextPrefix>$&nbsp;</span>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Sort By</mat-label>
+                    <mat-select [(ngModel)]="selectedValue" name="food">
+                      <mat-option *ngFor="let filters of filters" [value]="filters">
+                        {{filters}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                <button>Go</button>
             </form>
         </div>
         <div class="expensescontainer"><!-- This will be tha container for the actual expenses and will be scrollable -->

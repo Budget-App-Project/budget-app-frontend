@@ -7,11 +7,12 @@
 }
 
 html {
-  background-image: linear-gradient(#E2DFD2, #E2DFD2);
+  background-image: linear-gradient(#E2DFD2, #E2DFD2) !important;
 }
 
 body {
   font-family: "Poppins", sans-serif;
+  background-color: transparent;
 }
 
 html, body, .fullheight { height: 100%; width: 100%; }
@@ -29,10 +30,6 @@ svg#clouds {
   left: -230px;
   z-index: -10;
   width: 1920px;
-}
-
-[data-darkreader-inline-fill] {
-  fill: rgb(48, 51, 52) !important
 }
 
 #banner {

@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 import { ExpenseService } from './services/expense.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 
@@ -42,7 +43,8 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
     MatIconModule,
     MatSlideToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [AuthService, AuthGuard, ExpenseService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
