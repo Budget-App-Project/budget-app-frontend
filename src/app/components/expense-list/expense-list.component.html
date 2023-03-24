@@ -117,7 +117,7 @@
                     <button *ngIf="edit" class="buttons" mat-raised-button (click)="cancelEdit()">Go Back</button>
                     <p>OR</p>
                     <button *ngIf="edit" class="buttons" mat-raised-button (click)="submitChanges()">Accept</button>
-                    <button *ngIf="!edit" class="buttons" mat-raised-button color="warn">Delete</button>
+                    <button *ngIf="!edit" class="buttons" mat-raised-button color="warn" (click)="deleteExpense()">Delete</button>
                 </div>
         </form>
         </div>

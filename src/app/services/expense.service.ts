@@ -33,4 +33,12 @@ export class ExpenseService {
     return this.http.put<SuccessResponseModel>('api/expenses/update', { price, whatFor, whatTime, necessary, expenseId })
   }
 
+  deleteExpense(expenseId: number) {
+    return this.http.delete<SuccessResponseModel>('/api/expenses/delete', {
+      params: {
+        expenseId
+      }
+    })
+  }
+
 }

@@ -152,11 +152,14 @@ export class ExpenseListComponent implements OnInit{
 
   submitChanges() {
     const { price, whatTime, whatFor, necessary, expenseId } = this.expenseViewForm.value;
-    console.log(typeof expenseId);
     if (this.expenseService.validateExpense(Number(price), whatFor, whatTime) && expenseId != null && typeof expenseId == 'number') {
       this.expenseService.updateExpense(Number(price), whatFor, whatTime, necessary, expenseId).subscribe(() => window.location.reload())
     } else {
       alert("Error validating fields, please try again later");
     }
+  }
+
+  deleteExpense() {
+    this.expenseService.deleteExpense(this.expenseViewForm.value.expenseId).subscribe(() => window.location.reload())
   }
 }
