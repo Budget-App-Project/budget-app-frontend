@@ -1,13 +1,13 @@
 <div class="root">
     <div class="expenselist">
         <div class="topinformation"><!--This will Just say something like please select desired filters"--></div>
-        <div class="filters"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv-->
+        <div class="filters" style="border-style: solid; border-color: black !important; border-width: 0px 0px 2px 0px;"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv-->
             <div id="aboveform" style="display: flex; margin-left: auto; margin-right: auto; width: fit-content;" (click)="showFilters = !showFilters">
                 Filters and Options
             </div>
-            <form [formGroup]="form" (ngSubmit)="submitForm()" [ngStyle]="{height: showFilters ? '100vh' : '0vh'}" style="overflow: hidden;">
+            <form [formGroup]="form" (ngSubmit)="submitForm()" [ngStyle]="{ height: showFilters ? '70vh': '0vh', 'box-shadow': '0px 0px 15px rgba(0, 0, 0, 0.5)' }" style="overflow: hidden; background-color: rgb(100, 100, 100) !important;">
 
-                <mat-form-field appearance="fill" floatLabel="always" style="margin-top: 10px; height: fit-content;">
+                <mat-form-field appearance="fill" floatLabel="always">
                     <mat-label>Enter a date range</mat-label>
                     <mat-date-range-input [rangePicker]="picker">
                         <input matStartDate placeholder="Start date" name="startDate" formControlName="startDate">
@@ -18,12 +18,11 @@
                 </mat-form-field>
 
                 <div id="necessarycontainer">
-                    <mat-label>Necessary</mat-label>
                     <div id="slidercontainer">
-                        <p [ngStyle]="{opacity: (form.value.necessary) ? 0.5 : 1}">False</p>
+                        <p [ngStyle]="{opacity: (form.value.necessary) ? 0.5 : 1}">Exclude Necessary</p>
                         <mat-slide-toggle appearance="outline" formControlName="necessary">
                         </mat-slide-toggle>
-                        <p [ngStyle]="{opacity: (form.value.necessary) ? 1 : 0.5}">True</p>
+                        <p [ngStyle]="{opacity: (form.value.necessary) ? 1 : 0.5}">Include Necessary</p>
                     </div>
                 </div>
 
@@ -48,17 +47,17 @@
                     </mat-select>
                   </mat-form-field>
 
-                <button>Go</button>
+                <button type="submit">Go</button>
             </form>
         </div>
-        <div class="expensescontainer"><!-- This will be tha container for the actual expenses and will be scrollable -->
+        <div class="expensescontainer" style="border-style: solid; border-color: black !important; border-width: 0px 0px 2px 0px;"><!-- This will be tha container for the actual expenses and will be scrollable -->
             <!-- In here the expenses will be mapped through and they will looke similar to the example-->
-            <div class="expense">
-                <span class="price">price</span>
-                <span class="whatFor">Type</span>
-                <span class="necessary">necessary</span>
-                <span class="when">when</span>
-            </div>
+                    <div class="expense" *ngFor="let expense of expenses">
+                        <span class="price">{{expense.price}}</span>
+                        <span class="whatFor">{{expense.whatFor}}</span>
+                        <span class="when">{{expense.whatTime}}</span>
+                        <span class="necessary">{{expense.necessary}}</span>
+                    </div> 
         </div>
         <div class="totalspending"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top three expenses --></div>
     </div>

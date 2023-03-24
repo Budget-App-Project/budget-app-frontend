@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { Expense } from 'src/assets/definitions';
 
 interface Filters {
   value: string;
@@ -21,6 +22,7 @@ export class ExpenseListComponent implements OnInit{
     'Price',
     'Date'
   ];
+  expenses: Expense[] = [];
 
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -39,7 +41,7 @@ export class ExpenseListComponent implements OnInit{
       const referenceDate = new Date();
       const referenceYear = referenceDate.getFullYear();
       const referenceMonth = referenceDate.getMonth();
-      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth, 0, 0, 0, 0, 0), new Date(referenceMonth == 11 ? referenceYear + 1 : referenceYear, referenceMonth === 11 ? 0 : referenceMonth + 1, 0, 0, 0, 0, 0)).subscribe((val) => console.log(val));
+      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth, 0, 0, 0, 0, 0), new Date(referenceMonth == 11 ? referenceYear + 1 : referenceYear, referenceMonth === 11 ? 0 : referenceMonth + 1, 0, 0, 0, 0, 0)).subscribe((val) => this.expenses = val);
   }
 
   getExpenseList() {
@@ -47,10 +49,7 @@ export class ExpenseListComponent implements OnInit{
   }
 
   submitForm() {
-
-  }
-
-  showFiltersAndOptions() {
-
+    console.log(this.expenses);
+    this.showFilters = false;
   }
 }

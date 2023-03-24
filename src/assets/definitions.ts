@@ -9,11 +9,11 @@ interface SignUpUser extends User {
 
 interface Expense {
     id: number;
-    price: string;
+    price: number;
     whatFor: string;
     whatTime: Object;
     necessary: boolean;
-    user_id: number;
+    userId: number;
 }
 
 interface SuccessResponseModel {
