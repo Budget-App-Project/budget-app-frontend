@@ -18,30 +18,30 @@
                     <mat-date-range-picker #picker></mat-date-range-picker>
                 </mat-form-field>
 
-                <div id="necessarycontainer" style="margin-bottom: 20px;">
+                <div id="necessarycontainer" style="margin-bottom: 20px; margin-top: -5px;">
                     <div id="slidercontainer" style="display: flex; flex-direction: column; align-items: center;">
-                        <p [ngStyle]="{opacity: (form.value.necessary) ? 0.65 : 1}" style="transition: opacity 0.5s ease-in-out;">Exclude Necessary</p>
-                        <mat-slide-toggle appearance="outline" formControlName="necessary">
+                        <p [ngStyle]="{opacity: (form.value.includeUnnecessary) ? 1 : 0.65}" style="transition: opacity 0.5s ease-in-out;">Include Unnecessary</p>
+                        <mat-slide-toggle appearance="outline" formControlName="includeUnnecessary">
                         </mat-slide-toggle>
-                        <p [ngStyle]="{opacity: (form.value.necessary) ? 1 : 0.65}" style="transition: opacity 0.5s ease-in-out;">Include Necessary</p>
+                        <p [ngStyle]="{opacity: (form.value.includeUnnecessary) ? 0.65 : 1}" style="transition: opacity 0.5s ease-in-out;">Exclude Unnecessary</p>
                     </div>
                 </div>
 
                 <mat-form-field appearance="fill" floatLabel="always">
                     <mat-label>Min value</mat-label>
-                    <input matInput type="number" placeholder="E.g. 10.00">
+                    <input matInput type="number" placeholder="E.g. 10.00" formControlName="minValue">
                     <span matTextPrefix>$&nbsp;</span>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" floatLabel="always">
                     <mat-label>Max value</mat-label>
-                    <input matInput type="number" placeholder="E.g. 1500.00">
+                    <input matInput type="number" placeholder="E.g. 1500.00" formControlName="maxValue">
                     <span matTextPrefix>$&nbsp;</span>
                 </mat-form-field>
                 
                 <mat-form-field appearance="fill">
                     <mat-label>Sort By</mat-label>
-                    <mat-select [(ngModel)]="selectedValue" name="food">
+                    <mat-select [(ngModel)]="selectedValue" name="food" formControlName="sortBy">
                       <mat-option *ngFor="let filters of filters" [value]="filters">
                         {{filters}}
                       </mat-option>
@@ -72,7 +72,7 @@
         <div class="totalspending" style="background-color: rgb(0, 0, 0);"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top three expenses --></div>
     </div>
     <div class="expensemodal" [ngStyle]="{'visibility': showModal ? 'visible' : 'hidden'}" style="height: 100vh; width: 100vw; position: fixed; z-index: 30; display: flex; visibility: hidden;">
-        <div id="modalbackground" style="background-color: rgba(0, 0, 0, 0.33); height: 100%; width: 100%; position: absolute;" (click)="showModal = false"></div>
+        <div id="modalbackground" style="background-color: rgba(0, 0, 0, 0.33); height: 100%; width: 100%; position: absolute;" (click)="showModal = false; cancelEdit()"></div>
         <div id="modalcontent" style="background-color: rgb(28, 31, 32) !important; height: 500px; width: 400px; z-index: 1; margin: auto; border-radius: 50px; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;">
             <form [formGroup]="expenseViewForm">
                 <legend>Expense View</legend>
@@ -103,7 +103,7 @@
                     </mat-error>
                 </mat-form-field>
     
-                <div id="necessarycontainer">
+                <div id="necessarycontainer" style="margin-top: -5px;">
                     <mat-label>Necessary</mat-label>
                     <div id="slidercontainer">
                         <p [ngStyle]="{opacity: (form.value.necessary) ? 0.5 : 1}">False</p>

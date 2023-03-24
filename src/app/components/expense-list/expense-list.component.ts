@@ -25,18 +25,22 @@ export class ExpenseListComponent implements OnInit{
   originalStart: Date;
   originalEnd: Date;
   filters: string[] = [
-    'Price',
-    'Date'
+    'Newest',
+    'Oldest',
+    'Price: High to Low',
+    'Price: Low to High'
   ];
   expenses: Expense[] = [];
+  originalExpenses: Expense[] = [];
 
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.form = this.fb.group({
-      price: ['', Validators.required],
-      whatFor: ['', Validators.required],
       startDate: [new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth()), Validators.required],
       endDate: [new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth() + 1, 0), Validators.required],
-      necessary: [true, Validators.required],
+      includeUnnecessary: [true],
+      minValue: [''],
+      maxValue: [''],
+      sortBy: ['']
     });
     this.expenseViewForm = this.fb.group({
       price: ['', Validators.required],
@@ -56,7 +60,7 @@ export class ExpenseListComponent implements OnInit{
       const referenceDate = new Date();
       const referenceYear = referenceDate.getFullYear();
       const referenceMonth = referenceDate.getMonth();
-      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth, 0, 0, 0, 0, 0), new Date(referenceMonth == 11 ? referenceYear + 1 : referenceYear, referenceMonth === 11 ? 0 : referenceMonth + 1, 0, 0, 0, 0, 0)).subscribe((val) => this.expenses = val);
+      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth, 0, 0, 0, 0, 0), new Date(referenceMonth == 11 ? referenceYear + 1 : referenceYear, referenceMonth === 11 ? 0 : referenceMonth + 1, 0, 0, 0, 0, 0)).subscribe((val) => { this.expenses = val; this.originalExpenses = val });
   }
 
   getExpenseList() {
@@ -64,14 +68,37 @@ export class ExpenseListComponent implements OnInit{
   }
 
   submitForm() {
-    if (this.originalStart == this.form.value.startDate && this.originalEnd == this.form.value.endDate) {
+    const {startDate, endDate, includeUnnecessary, minValue, maxValue, sortBy} = this.form.value;
+    if (this.originalStart.valueOf() <= startDate.valueOf() && this.originalEnd.valueOf() >= endDate.valueOf()) {
       console.log("same start and end")
-      // the date range has changed, query the backend, but you can probably set it to only do that if one of the dates is outside of the original range.
+      // the date range has either not changed or the start and end dates are within the original range, no need to query backend
     } else {
-      // the date range has not changed, simply filter the results on the front end
+      // the date range has changed and either the start, end, or both are outside the original range, query the backend
       console.log("different start and end")
-      this.originalStart = this.form.value.startDate;
-      this.originalEnd = this.form.value.endDate;
+    }
+    if (!includeUnnecessary) {
+      this.expenses = this.originalExpenses.filter((expense) => expense.necessary)
+    } else {
+      this.expenses = this.originalExpenses;
+    } if (minValue) {
+      this.expenses = this.expenses.filter((expense) => expense.price > minValue);
+    }
+    if (maxValue) {
+      this.expenses = this.expenses.filter((expense) => expense.price < maxValue);
+    }
+    switch(sortBy) {
+      case 'Newest':
+        this.expenses.sort((exp1, exp2) => exp1.whatTime.valueOf() > exp2.whatTime.valueOf() ? -1 : exp1.whatTime.valueOf() < exp2.whatTime.valueOf() ? 1 : 0);
+        break;
+      case 'Oldest':
+        this.expenses.sort((exp1, exp2) => exp1.whatTime.valueOf() > exp2.whatTime.valueOf() ? 1 : exp1.whatTime.valueOf() < exp2.whatTime.valueOf() ? -1 : 0);
+        break;
+      case 'Price: High to Low':
+        this.expenses.sort((exp1, exp2) => exp1.price > exp2.price ? -1 : exp2.price > exp1.price ? 1 : 0);
+        break;
+      case 'Price: Low to High':
+        this.expenses.sort((exp1, exp2) => exp1.price < exp2.price ? -1 : exp2.price < exp1.price ? 1 : 0);
+        break;
     }
     this.showFilters = false;
   }
@@ -115,6 +142,7 @@ export class ExpenseListComponent implements OnInit{
   }
 
   submitChanges() {
-
+    const { price, whatTime, whatFor, necessary } = this.expenseViewForm.value;
+    console.log(price, whatTime, whatFor, necessary);
   }
 }
