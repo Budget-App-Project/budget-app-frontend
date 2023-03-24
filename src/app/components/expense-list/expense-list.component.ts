@@ -48,8 +48,15 @@ export class ExpenseListComponent implements OnInit{
       whatFor: ['', Validators.required],
       whatTime: [new Date(), Validators.required],
       necessary: [true, Validators.required],
+      expenseId: ['']
     })
-    this.editGroup = this.expenseViewForm;
+    this.editGroup = this.fb.group({
+      price: ['', Validators.required],
+      whatFor: ['', Validators.required],
+      whatTime: [new Date(), Validators.required],
+      necessary: [true, Validators.required],
+      expenseId: ['']
+    })
     this.selectedValue = this.filters[0];
     this.originalStart = this.form.value.startDate;
     this.originalEnd = this.form.value.endDate;
@@ -100,12 +107,20 @@ export class ExpenseListComponent implements OnInit{
     this.showFilters = false;
   }
 
-  triggerModal(expense: { price: number; whatFor: string; whatTime: Date; necessary: boolean; }) {
+  triggerModal(expense: { price: number; whatFor: string; whatTime: Date; necessary: boolean; id: number }) {
     this.expenseViewForm = this.fb.group({
       price: [expense.price.toFixed(2), Validators.required],
       whatFor: [expense.whatFor, Validators.required],
       whatTime: [new Date(expense.whatTime), Validators.required],
       necessary: [expense.necessary, Validators.required],
+      expenseId: [expense.id]
+    })
+    this.editGroup = this.fb.group({
+      price: [expense.price.toFixed(2), Validators.required],
+      whatFor: [expense.whatFor, Validators.required],
+      whatTime: [new Date(expense.whatTime), Validators.required],
+      necessary: [expense.necessary, Validators.required],
+      expenseId: [expense.id]
     })
     this.expenseViewForm.controls['price'].disable();
     this.expenseViewForm.controls['whatFor'].disable();
@@ -115,15 +130,12 @@ export class ExpenseListComponent implements OnInit{
   }
 
   editFields() {
-    this.edit = true;
-    this.editGroup.controls['price'].setValue(this.expenseViewForm.value.price);
-    this.editGroup.controls['whatFor'].setValue(this.expenseViewForm.value.whatFor);
-    this.editGroup.controls['whatTime'].setValue(this.expenseViewForm.value.whatTime);
-    this.editGroup.controls['necessary'].setValue(this.expenseViewForm.value.necessary);
+    console.log(this.editGroup.value.price);
     this.expenseViewForm.controls['price'].enable();
     this.expenseViewForm.controls['whatFor'].enable();
     this.expenseViewForm.controls['whatTime'].enable();
     this.expenseViewForm.controls['necessary'].enable();
+    this.edit = true;
   }
 
   cancelEdit() {
@@ -139,7 +151,12 @@ export class ExpenseListComponent implements OnInit{
   }
 
   submitChanges() {
-    const { price, whatTime, whatFor, necessary } = this.expenseViewForm.value;
-    console.log(price, whatTime, whatFor, necessary);
+    const { price, whatTime, whatFor, necessary, expenseId } = this.expenseViewForm.value;
+    console.log(typeof expenseId);
+    if (this.expenseService.validateExpense(Number(price), whatFor, whatTime) && expenseId != null && typeof expenseId == 'number') {
+      this.expenseService.updateExpense(Number(price), whatFor, whatTime, necessary, expenseId).subscribe(() => window.location.reload())
+    } else {
+      alert("Error validating fields, please try again later");
+    }
   }
 }

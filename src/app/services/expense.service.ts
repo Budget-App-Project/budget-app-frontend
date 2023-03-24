@@ -16,17 +16,21 @@ export class ExpenseService {
       });
   }
 
-  addExpense(price: string, whatFor: string, whatTime: Object, necessary: boolean) {
-    return this.http.post<SuccessResponseModel>("/api/expenses/add", {price, whatFor, whatTime, necessary});
+  addExpense(price: number, whatFor: string, whatTime: Date, necessary: boolean) {
+    return this.http.post<SuccessResponseModel>("/api/expenses/add", { price, whatFor, whatTime, necessary });
   }
 
-  validateExpense(price: number, whatFor: string, whatTime: Object) {
+  validateExpense(price: number, whatFor: string, whatTime: Date) {
     // if pass return true otherwise false
     if (typeof price == 'number' && whatFor.length > 0 && whatTime.toString().length > 0) {
       return true
     } else {
       return false;
     }
+  }
+
+  updateExpense(price: number, whatFor: string, whatTime: Date, necessary: boolean, expenseId: number) {
+    return this.http.put<SuccessResponseModel>('api/expenses/update', { price, whatFor, whatTime, necessary, expenseId })
   }
 
 }
