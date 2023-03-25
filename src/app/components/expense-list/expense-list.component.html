@@ -1,7 +1,7 @@
 <div class="root" style="padding-top: 8px;">
     <div class="expenselist">
         <div class="filters"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv-->
-            <div id="aboveform" style="display: flex; margin-left: auto; margin-right: auto; width: fit-content; cursor: pointer; border-style: solid; border-color: rgba(0, 0, 0, 0.75) !important; border-width: 0px 0px 1.5px 0px;" (click)="showFilters = !showFilters">
+            <div id="aboveform" style="display: flex; margin-left: auto; margin-right: auto; width: fit-content; cursor: pointer; border-style: solid; border-color: rgba(255, 255, 255, 0.75) !important; border-width: 0px 0px 1.5px 0px;" (click)="showFilters = !showFilters">
                 Filters and Options
                 <mat-icon [ngStyle]="{ transform: showFilters ? 'rotate(-180deg)' : 'rotate(0deg)', transition: 'all 0.5s ease-in-out' }">keyboard_arrow_down</mat-icon>
             </div>
@@ -60,7 +60,7 @@
                 <div class="information">Necessary</div>
             </div>
         </div>
-        <div class="expensescontainer" style="border-style: solid; border-color: black !important; border-width: 2px 0px; overflow-y: auto;"><!-- This will be tha container for the actual expenses and will be scrollable -->
+        <div class="expensescontainer" style="overflow-y: scroll;"><!-- This will be tha container for the actual expenses and will be scrollable -->
             <!-- In here the expenses will be mapped through and they will looke similar to the example-->
                     <div (click)="triggerModal(expense)" class="expense" *ngFor="let expense of expenses" style="display: flex; flex-direction: row; width: 100%; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; font-size: medium; border-style: solid; border-color: rgba(0, 0, 0, 0.5) !important; border-width: 0px 0px 1px 0px; cursor: pointer;">
                         <span class="information">{{'$' + expense.price.toFixed(2)}}</span>

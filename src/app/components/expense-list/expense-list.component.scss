@@ -7,10 +7,11 @@
     height: 100%;
     align-items: center;
     padding-top: 64px;
+    color: black;
 }
 
 .filters {
-    color: white;
+    color: black;
     width: fit-content;
     font-size: larger;
     margin-top: 10px;
@@ -32,14 +33,17 @@
 
 .expensescontainer {
     height: 55vh;
-    width: 100vw;
+    width: 95vw;
+    margin-top: 15px;
+    box-shadow:  0px 0px 5px 1px rgb(38, 41, 42);
+    background-image: linear-gradient(transparent, rgb(150, 150, 150));
 }
 
 .topinformation {
     font-size: large;
     display: flex;
     flex-direction: row;
-    width: 100vw;
+    width: 95vw;
     margin-top: 10px;
 }
 
