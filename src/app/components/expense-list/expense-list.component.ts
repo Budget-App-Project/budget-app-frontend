@@ -30,6 +30,7 @@ export class ExpenseListComponent implements OnInit{
     'Price: High to Low',
     'Price: Low to High'
   ];
+  loadChartTwo: boolean = true;
   // expense variables
   expenses: Expense[] = [];
   originalExpenses: Expense[] = [];
@@ -41,7 +42,8 @@ export class ExpenseListComponent implements OnInit{
   unnecessarySpending: number = 0;
   orderedExpenses: Array<Array<any>> = [];
   // pie chart variables
-  pieChartOptions: ChartOptions<'pie'> = {
+  //top three chart
+  topThreeChartOptions: ChartOptions<'pie'> = {
     responsive: false,
     color: 'black',
     plugins: {
@@ -52,12 +54,28 @@ export class ExpenseListComponent implements OnInit{
       }
     },
   };
-  pieChartLabels = [ [''] ];
-  pieChartDatasets = [ {
-    data: [ 0 ]
+  topThreeChartLabels = [ [''] ];
+  topThreeChartDatasets = [ {
+    data: [ 0 ],
+    backgroundColor: ['red', 'orange', 'green', 'gray'],
   } ];
-  pieChartLegend = true;
-  pieChartPlugins = [];
+  // necessary vs unnecessary chart
+  necVsUnnecChartOptions: ChartOptions<'pie'> = {
+    responsive: false,
+    color: 'black',
+    plugins: {
+      title: {
+        display: true,
+        text: 'Necessary Vs Unnecessary',
+        color: 'black'
+      }
+    },
+  };
+  necVsUnnecChartLabels = [ ['Necessary'], ['Unnecessary'] ];
+  necVsUnnecChartDatasets = [ {
+    data: [ 0, 0 ],
+    backgroundColor: ['green', 'red' ],
+  } ];
   
 
 
@@ -107,7 +125,10 @@ export class ExpenseListComponent implements OnInit{
     }
     // filter according to the variables that were input
     if (!includeUnnecessary) {
-      this.expenses = this.expenses.filter((expense) => expense.necessary)
+      this.expenses = this.expenses.filter((expense) => expense.necessary);
+      this.loadChartTwo = false;
+    } else {
+      this.loadChartTwo = true;
     }
     if (minValue) {
       this.expenses = this.expenses.filter((expense) => expense.price >= minValue);
@@ -213,11 +234,11 @@ export class ExpenseListComponent implements OnInit{
      this.orderedExpenses.push([expense, this.totalSpendingByExpense[expense]])
    }
    this.orderedExpenses.sort((first, sec) => first[1] > sec[1] ? -1 : first[1] < sec[1] ? 1 : 0)
-   this.pieChartLabels = [ [this.orderedExpenses[0][0][0].toUpperCase() + this.orderedExpenses[0][0].slice(1)], [this.orderedExpenses[1][0][0].toUpperCase() + this.orderedExpenses[1][0].slice(1)], [this.orderedExpenses[2][0][0].toUpperCase() + this.orderedExpenses[2][0].slice(1)], ['Other'] ];
-   let firstValue: number = Math.round(this.orderedExpenses[0][1] / this.totalSpending * 100);
-   let secondValue: number = Math.round(this.orderedExpenses[1][1] / this.totalSpending * 100);
-   let thirdValue: number = Math.round(this.orderedExpenses[2][1] / this.totalSpending * 100);
-   let other: number = 100 - firstValue - secondValue - thirdValue;
-   this.pieChartDatasets = [ { data: [ firstValue, secondValue, thirdValue, other ] } ];
+   this.topThreeChartLabels = [ [this.orderedExpenses[0][0][0].toUpperCase() + this.orderedExpenses[0][0].slice(1)], [this.orderedExpenses[1][0][0].toUpperCase() + this.orderedExpenses[1][0].slice(1)], [this.orderedExpenses[2][0][0].toUpperCase() + this.orderedExpenses[2][0].slice(1)], ['Other'] ];
+   this.topThreeChartDatasets[0].data = [ this.orderedExpenses[0][1], this.orderedExpenses[1][1], this.orderedExpenses[2][1], this.totalSpending - this.orderedExpenses[0][1] - this.orderedExpenses[1][1] - this.orderedExpenses[2][1] ];
+   this.necVsUnnecChartDatasets = [ {
+    data: [ this.necessarySpending, this.unnecessarySpending ],
+    backgroundColor: ['green', 'red' ],
+  } ];
   }
 }
