@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
-import { Expense } from 'src/assets/definitions';
+import { Expense, TotalSpendingByExpense, FilterValues } from 'src/assets/definitions';
 import { firstValueFrom } from 'rxjs';
-
-interface Filters {
-  value: string;
-  viewValue: string;
-}
 
 @Component({
   selector: 'app-expense-list',
@@ -33,6 +28,14 @@ export class ExpenseListComponent implements OnInit{
   ];
   expenses: Expense[] = [];
   originalExpenses: Expense[] = [];
+  // change these with information and expense changes as they will be used to load the chart data. Also only load the necessary vs unnecessary if includeUnnecessary is true.
+  totalSpending: number = 0;
+  topExpense: Array<string | number> = ['', 0];
+  totalSpendingByExpense: TotalSpendingByExpense = {};
+  necessarySpending: number = 0;
+  unnecessarySpending: number = 0;
+  topFiveExpenses: Array<Array<string | number>> = [];
+
 
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -62,13 +65,12 @@ export class ExpenseListComponent implements OnInit{
     this.originalEnd = this.form.value.endDate;
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
       // make call to the backend for unsorted and no parameters list of expenses except page 1 for pagination I thinking 15-20 expenses per page? will see.
       // need to create the call to the backend in the expense service and subscribe to it here
       const referenceDate = new Date();
-      const referenceYear = referenceDate.getFullYear();
-      const referenceMonth = referenceDate.getMonth();
-      this.expenseService.getExpenses(0, new Date(referenceYear, referenceMonth), new Date(referenceYear, referenceMonth + 1, 0, 23, 59, 59)).subscribe((val) => { this.expenses = val; this.originalExpenses = val });
+      await this.setExpenses(new Date(referenceDate.getFullYear(), referenceDate.getMonth()), new Date(referenceDate.getFullYear(), referenceDate.getMonth() + 1, 0, 23, 59, 59));
+      this.setChartValues();
   }
 
   async submitForm() {
@@ -78,18 +80,19 @@ export class ExpenseListComponent implements OnInit{
       // the date range has either not changed or the start and end dates are within the original range, no need to query backend
     } else {
       // the date range has changed and either the start, end, or both are outside the original range, query the backend
-      this.originalExpenses = await firstValueFrom(this.expenseService.getExpenses(0, startDate, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59)));
-      this.expenses = this.originalExpenses;
+      await this.setExpenses(startDate, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59));
     }
+    // filter according to the variables that were input
     if (!includeUnnecessary) {
       this.expenses = this.expenses.filter((expense) => expense.necessary)
     }
     if (minValue) {
-      this.expenses = this.expenses.filter((expense) => expense.price > minValue);
+      this.expenses = this.expenses.filter((expense) => expense.price >= minValue);
     }
     if (maxValue) {
-      this.expenses = this.expenses.filter((expense) => expense.price < maxValue);
+      this.expenses = this.expenses.filter((expense) => expense.price <= maxValue);
     }
+    // sort by according to which item is selected
     switch(sortBy) {
       case 'Newest':
         this.expenses.sort((exp1, exp2) => exp1.whatTime.valueOf() > exp2.whatTime.valueOf() ? -1 : exp1.whatTime.valueOf() < exp2.whatTime.valueOf() ? 1 : 0);
@@ -104,6 +107,7 @@ export class ExpenseListComponent implements OnInit{
         this.expenses.sort((exp1, exp2) => exp1.price < exp2.price ? -1 : exp2.price < exp1.price ? 1 : 0);
         break;
     }
+    this.setChartValues();
     this.showFilters = false;
   }
 
@@ -161,5 +165,31 @@ export class ExpenseListComponent implements OnInit{
 
   deleteExpense() {
     this.expenseService.deleteExpense(this.expenseViewForm.value.expenseId).subscribe(() => window.location.reload())
+  }
+
+  async setExpenses(startDate: Date, endDate: Date) {
+    this.originalExpenses = await firstValueFrom(this.expenseService.getExpenses(0, startDate, endDate));
+      this.expenses = this.originalExpenses;
+  }
+
+  setChartValues() {
+    this.expenses.reduce((acc, currVal) => {
+      this.totalSpending += currVal.price;
+      if (this.totalSpendingByExpense[currVal.whatFor.toLowerCase()] == undefined) {
+       this.totalSpendingByExpense[currVal.whatFor.toLowerCase()] = currVal.price;
+      } else {
+       this.totalSpendingByExpense[currVal.whatFor.toLowerCase()] += currVal.price;
+      }
+      if (currVal.necessary) {
+       this.necessarySpending += currVal.price;
+      }
+     return null;
+   }, null)
+   this.unnecessarySpending = this.totalSpending - this.necessarySpending;
+   for (let expense in this.totalSpendingByExpense) {
+     this.topFiveExpenses.push([expense, this.totalSpendingByExpense[expense]])
+   }
+   this.topFiveExpenses = this.topFiveExpenses.sort((first, sec) => first[1] > sec[1] ? -1 : first[1] < sec[1] ? 1 : 0).slice(0, 5);
+   this.topExpense = this.topFiveExpenses[0];
   }
 }

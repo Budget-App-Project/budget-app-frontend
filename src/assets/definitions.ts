@@ -20,4 +20,14 @@ interface SuccessResponseModel {
     success: string;
 }
 
-export {User, SignUpUser, Expense, SuccessResponseModel}
+interface TotalSpendingByExpense {
+    [index: string]: number;
+  }
+  
+  interface FilterValues {
+    totalSpending: number;
+    totalSpendingByExpense: TotalSpendingByExpense;
+    necessarySpending: number;
+  }
+
+export {User, SignUpUser, Expense, SuccessResponseModel, TotalSpendingByExpense, FilterValues}

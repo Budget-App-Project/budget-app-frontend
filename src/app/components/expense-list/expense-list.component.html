@@ -1,4 +1,4 @@
-<div class="root" style="padding-top: 8px;">
+<div class="root">
     <div class="expenselist">
         <div class="filters"><!--This will house all of the filters that a person can select with a get expenses button by and the button that will say get as csv-->
             <div id="aboveform" style="display: flex; margin-left: auto; margin-right: auto; width: fit-content; cursor: pointer; border-style: solid; border-color: rgba(255, 255, 255, 0.75) !important; border-width: 0px 0px 1.5px 0px;" (click)="showFilters = !showFilters">
@@ -6,7 +6,7 @@
                 <mat-icon [ngStyle]="{ transform: showFilters ? 'rotate(-180deg)' : 'rotate(0deg)', transition: 'all 0.5s ease-in-out' }">keyboard_arrow_down</mat-icon>
             </div>
             <div class="formcontainer" style="margin-right: auto; margin-left: auto; position: relative; width: 375px;">
-            <form [formGroup]="form" (ngSubmit)="submitForm()" [ngStyle]="{ height: showFilters ? '82.5vh': '0vh', 'box-shadow': '0px 0px 15px rgba(0, 0, 0, 0.5)', 'background-color': 'rgb(38, 41, 42)' }" style="overflow: hidden; background-color: rgb(175, 175, 175) !important;">
+            <form [formGroup]="form" (ngSubmit)="submitForm()" [ngStyle]="{ height: showFilters ? '82.5vh': '0vh', 'box-shadow': '0px 0px 15px rgba(0, 0, 0, 0.5)', 'background-color': 'rgb(175, 175, 175)' }" style="overflow: hidden; background-color: rgb(175, 175, 175) !important;">
 
                 <mat-form-field appearance="fill" floatLabel="always">
                     <mat-label>Enter a date range</mat-label>
@@ -48,9 +48,9 @@
                     </mat-select>
                   </mat-form-field>
 
-                <button type="submit" mat-flat-button>Go</button>
+                <button type="submit" mat-raised-button>Go</button>
                 <p style="margin-top: 10px; margin-bottom: 10px;">OR</p>
-                <button type="button" mat-flat-button>Get as CSV</button>
+                <button type="button" mat-raised-button>Get as CSV</button>
             </form>
             </div>
             <div class="topinformation">
@@ -69,11 +69,12 @@
                         <span class="information">{{expense.necessary ? 'Yes' : 'No'}}</span>
                     </div> 
         </div>
-        <div class="totalspending" style="background-color: rgb(0, 0, 0);"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top three expenses --></div>
+        <div class="totalspending"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top three expenses -->
+        </div>
     </div>
     <div class="expensemodal" [ngStyle]="{'visibility': showModal ? 'visible' : 'hidden'}" style="height: 100vh; width: 100vw; position: fixed; z-index: 30; display: flex; visibility: hidden;">
         <div id="modalbackground" style="background-color: rgba(0, 0, 0, 0.33); height: 100%; width: 100%; position: absolute;" (click)="showModal = false; cancelEdit()"></div>
-        <div id="modalcontent" style="background-color: rgb(28, 31, 32) !important; height: 500px; width: 400px; z-index: 1; margin: auto; border-radius: 50px; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;">
+        <div id="modalcontent" style="background-color: rgb(175, 175, 175) !important; z-index: 1; margin: auto; border-radius: 50px; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;">
             <form [formGroup]="expenseViewForm">
                 <legend>Expense View</legend>
                 <mat-form-field appearance="fill" floatLabel="always" style="margin-bottom: 10px;" aria-disabled="true">
