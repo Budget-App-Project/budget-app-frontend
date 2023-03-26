@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ExpenseService } from './services/expense.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
     MatSlideToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    NgChartsModule
   ],
   providers: [AuthService, AuthGuard, ExpenseService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
