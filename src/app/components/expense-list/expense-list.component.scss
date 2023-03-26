@@ -110,6 +110,9 @@ form {
     margin: auto;
     box-shadow:  0px 0px 5px 1px rgb(38, 41, 42);
     background-image: linear-gradient(rgb(150, 150, 150), transparent);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
   }
 
   #modalcontent {
@@ -134,8 +137,16 @@ form {
     }
     .totalspending {
       height: 38vh;
+      width: 95vw;
+      scroll-snap-type: x mandatory;
+      overflow: scroll;
+      justify-content: start;
     }
     .charts {
       max-width: 100%;
+      scroll-snap-align: center;
+    }
+    canvas {
+      padding: 10px;
     }
 }

@@ -69,7 +69,7 @@
                         <span class="information">{{expense.necessary ? 'Yes' : 'No'}}</span>
                     </div> 
         </div>
-        <div class="totalspending" style="display: flex; flex-direction: row; justify-content: space-evenly;"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top five expenses -->
+        <div class="totalspending"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top five expenses -->
             <canvas baseChart
                 [type]="'pie'"
                 [datasets]="topThreeChartDatasets"

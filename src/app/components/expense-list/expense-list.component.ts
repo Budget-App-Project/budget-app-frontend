@@ -74,7 +74,7 @@ export class ExpenseListComponent implements OnInit{
   necVsUnnecChartLabels = [ ['Necessary'], ['Unnecessary'] ];
   necVsUnnecChartDatasets = [ {
     data: [ 0, 0 ],
-    backgroundColor: ['#3a8940', '#c30900' ],
+    backgroundColor: ['#3a8940', '#c30900' ]
   } ];
   
 
@@ -238,7 +238,7 @@ export class ExpenseListComponent implements OnInit{
    this.topThreeChartDatasets[0].data = [ this.orderedExpenses[0][1], this.orderedExpenses[1][1], this.orderedExpenses[2][1], this.totalSpending - this.orderedExpenses[0][1] - this.orderedExpenses[1][1] - this.orderedExpenses[2][1] ];
    this.necVsUnnecChartDatasets = [ {
     data: [ this.necessarySpending, this.unnecessarySpending ],
-    backgroundColor: ['darkgreen', 'darkred' ],
+    backgroundColor: ['darkgreen', 'darkred' ]
   } ];
   }
 }
