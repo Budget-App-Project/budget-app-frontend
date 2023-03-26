@@ -117,6 +117,10 @@ form {
     width: 400px;
   }
 
+  .charts {
+    max-width: 33%;
+  }
+
 @media screen and (max-width: 660px) {
     .expensescontainer {
         height: 40vh;
@@ -130,5 +134,8 @@ form {
     }
     .totalspending {
       height: 38vh;
+    }
+    .charts {
+      max-width: 100%;
     }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { Expense, TotalSpendingByExpense, FilterValues } from 'src/assets/definitions';
 import { firstValueFrom } from 'rxjs';
+import { ChartOptions, Color } from 'chart.js';
 
 @Component({
   selector: 'app-expense-list',
@@ -10,10 +11,13 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./expense-list.component.scss']
 })
 export class ExpenseListComponent implements OnInit{
+  // formGroup vairables
   form: FormGroup;
   expenseViewForm: FormGroup;
   editGroup: FormGroup;
+  // reference variable
   referenceDate: Date = new Date();
+  // modal and filter values
   selectedValue: string;
   showFilters: boolean = false;
   showModal: boolean = false;
@@ -26,6 +30,7 @@ export class ExpenseListComponent implements OnInit{
     'Price: High to Low',
     'Price: Low to High'
   ];
+  // expense variables
   expenses: Expense[] = [];
   originalExpenses: Expense[] = [];
   // change these with information and expense changes as they will be used to load the chart data. Also only load the necessary vs unnecessary if includeUnnecessary is true.
@@ -34,7 +39,26 @@ export class ExpenseListComponent implements OnInit{
   totalSpendingByExpense: TotalSpendingByExpense = {};
   necessarySpending: number = 0;
   unnecessarySpending: number = 0;
-  topFiveExpenses: Array<Array<string | number>> = [];
+  orderedExpenses: Array<Array<any>> = [];
+  // pie chart variables
+  pieChartOptions: ChartOptions<'pie'> = {
+    responsive: false,
+    color: 'black',
+    plugins: {
+      title: {
+        display: true,
+        text: 'Top Three Expenses',
+        color: 'black'
+      }
+    },
+  };
+  pieChartLabels = [ [''] ];
+  pieChartDatasets = [ {
+    data: [ 0 ]
+  } ];
+  pieChartLegend = true;
+  pieChartPlugins = [];
+  
 
 
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
@@ -68,8 +92,7 @@ export class ExpenseListComponent implements OnInit{
   async ngOnInit(): Promise<void> {
       // make call to the backend for unsorted and no parameters list of expenses except page 1 for pagination I thinking 15-20 expenses per page? will see.
       // need to create the call to the backend in the expense service and subscribe to it here
-      const referenceDate = new Date();
-      await this.setExpenses(new Date(referenceDate.getFullYear(), referenceDate.getMonth()), new Date(referenceDate.getFullYear(), referenceDate.getMonth() + 1, 0, 23, 59, 59));
+      await this.setExpenses(new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth()), new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth() + 1, 0, 23, 59, 59));
       this.setChartValues();
   }
 
@@ -187,9 +210,14 @@ export class ExpenseListComponent implements OnInit{
    }, null)
    this.unnecessarySpending = this.totalSpending - this.necessarySpending;
    for (let expense in this.totalSpendingByExpense) {
-     this.topFiveExpenses.push([expense, this.totalSpendingByExpense[expense]])
+     this.orderedExpenses.push([expense, this.totalSpendingByExpense[expense]])
    }
-   this.topFiveExpenses = this.topFiveExpenses.sort((first, sec) => first[1] > sec[1] ? -1 : first[1] < sec[1] ? 1 : 0).slice(0, 5);
-   this.topExpense = this.topFiveExpenses[0];
+   this.orderedExpenses.sort((first, sec) => first[1] > sec[1] ? -1 : first[1] < sec[1] ? 1 : 0)
+   this.pieChartLabels = [ [this.orderedExpenses[0][0][0].toUpperCase() + this.orderedExpenses[0][0].slice(1)], [this.orderedExpenses[1][0][0].toUpperCase() + this.orderedExpenses[1][0].slice(1)], [this.orderedExpenses[2][0][0].toUpperCase() + this.orderedExpenses[2][0].slice(1)], ['Other'] ];
+   let firstValue: number = Math.round(this.orderedExpenses[0][1] / this.totalSpending * 100);
+   let secondValue: number = Math.round(this.orderedExpenses[1][1] / this.totalSpending * 100);
+   let thirdValue: number = Math.round(this.orderedExpenses[2][1] / this.totalSpending * 100);
+   let other: number = 100 - firstValue - secondValue - thirdValue;
+   this.pieChartDatasets = [ { data: [ firstValue, secondValue, thirdValue, other ] } ];
   }
 }
