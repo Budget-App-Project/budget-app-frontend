@@ -36,7 +36,6 @@ export class ExpenseListComponent implements OnInit{
   originalExpenses: Expense[] = [];
   // change these with information and expense changes as they will be used to load the chart data. Also only load the necessary vs unnecessary if includeUnnecessary is true.
   totalSpending: number = 0;
-  topExpense: Array<string | number> = ['', 0];
   totalSpendingByExpense: TotalSpendingByExpense = {};
   necessarySpending: number = 0;
   unnecessarySpending: number = 0;
@@ -217,6 +216,10 @@ export class ExpenseListComponent implements OnInit{
   }
 
   setChartValues() {
+    this.totalSpending = 0;
+    this.totalSpendingByExpense = {};
+    this.necessarySpending = 0;
+    this.orderedExpenses = [];
     this.expenses.reduce((acc, currVal) => {
       this.totalSpending += currVal.price;
       if (this.totalSpendingByExpense[currVal.whatFor.toLowerCase()] == undefined) {
@@ -241,4 +244,9 @@ export class ExpenseListComponent implements OnInit{
     backgroundColor: ['darkgreen', 'darkred' ]
   } ];
   }
+
+  getFileUrl() {
+    let fileUrl = '/api/expenses/exportCSV';
+    return fileUrl
+    }
 }
