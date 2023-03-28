@@ -56,19 +56,19 @@
             </form>
             </div>
             <div class="topinformation">
-                <div class="information">Price</div>
-                <div class="information">Type</div>
-                <div class="information">Date</div>
+                <div class="information">Expense</div>
+                <div class="information">Cost</div>
                 <div class="information">Necessary</div>
+                <div class="information">Date</div>
             </div>
         </div>
         <div class="expensescontainer" style="overflow-y: scroll;"><!-- This will be tha container for the actual expenses and will be scrollable -->
             <!-- In here the expenses will be mapped through and they will looke similar to the example-->
                     <div (click)="triggerModal(expense)" class="expense" *ngFor="let expense of expenses" style="display: flex; flex-direction: row; width: 100%; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; font-size: medium; border-style: solid; border-color: rgba(0, 0, 0, 0.5) !important; border-width: 0px 0px 1px 0px; cursor: pointer;">
+                        <span class="information">{{expense.whatFor[0].toUpperCase() + expense.whatFor.slice(1).toLowerCase()}}</span>
                         <span class="information">{{'$' + expense.price.toFixed(2)}}</span>
-                        <span class="information">{{expense.whatFor}}</span>
-                        <span class="information">{{expense.whatTime}}</span>
                         <span class="information">{{expense.necessary ? 'Yes' : 'No'}}</span>
+                        <span class="information">{{expense.whatTime}}</span>
                     </div> 
         </div>
         <div class="totalspending"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top five expenses -->

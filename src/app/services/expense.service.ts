@@ -6,10 +6,9 @@ import { Expense, SuccessResponseModel } from 'src/assets/definitions';
 export class ExpenseService {
   constructor(private http: HttpClient) { }
 
-  getExpenses(page: number, startDate: Date, endDate: Date) {
+  getExpenses(startDate: Date, endDate: Date) {
       return this.http.get<Array<Expense>>("/api/expenses", {
         params: {
-          page,
           startDate: startDate.valueOf(),
           endDate: endDate.valueOf()
         }

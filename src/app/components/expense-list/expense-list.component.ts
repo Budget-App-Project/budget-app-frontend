@@ -211,7 +211,7 @@ export class ExpenseListComponent implements OnInit{
   }
 
   async setExpenses(startDate: Date, endDate: Date) {
-    this.originalExpenses = await firstValueFrom(this.expenseService.getExpenses(0, startDate, endDate));
+    this.originalExpenses = await firstValueFrom(this.expenseService.getExpenses(startDate, endDate));
       this.expenses = this.originalExpenses;
   }
 

@@ -124,6 +124,10 @@ form {
     max-width: 33vw;
   }
 
+  canvas {
+    padding-bottom: 10px;
+  }
+
 @media screen and (max-width: 660px) {
     .expensescontainer {
         height: 40vh;
