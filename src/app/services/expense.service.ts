@@ -1,5 +1,6 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom, map } from 'rxjs';
 import { Expense, SuccessResponseModel } from 'src/assets/definitions';
 
 @Injectable()
@@ -40,4 +41,17 @@ export class ExpenseService {
     })
   }
 
+  async downloadFile(startDate: Date, endDate: Date, minValue: number, maxValue: number, sortBy: string, includeUnnecessary: boolean): Promise<ArrayBuffer> {
+    return await lastValueFrom(this.http.get('api/expenses/exportCSV', {
+      responseType: 'arraybuffer',
+      params: {
+        startDate: startDate.valueOf(),
+        endDate: endDate.valueOf(),
+        minValue,
+        maxValue,
+        sortBy,
+        includeUnnecessary
+      }
+    }).pipe(map((file: ArrayBuffer) => {return file})))
+  }
 }

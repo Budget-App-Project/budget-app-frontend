@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
-import { Expense, TotalSpendingByExpense, FilterValues } from 'src/assets/definitions';
+import { Expense, TotalSpendingByExpense } from 'src/assets/definitions';
 import { firstValueFrom } from 'rxjs';
-import { ChartOptions, Color } from 'chart.js';
+import { ChartOptions } from 'chart.js';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-expense-list',
@@ -22,8 +23,8 @@ export class ExpenseListComponent implements OnInit{
   showFilters: boolean = false;
   showModal: boolean = false;
   edit: boolean = false;
-  originalStart: Date;
-  originalEnd: Date;
+  originalStart: string;
+  originalEnd: string;
   filters: string[] = [
     'Newest',
     'Oldest',
@@ -81,7 +82,7 @@ export class ExpenseListComponent implements OnInit{
   constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.form = this.fb.group({
       startDate: [new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth()), Validators.required],
-      endDate: [new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth() + 1, 0), Validators.required],
+      endDate: [new Date(this.referenceDate.getFullYear(), this.referenceDate.getMonth() + 1, 0, 23, 59, 59) , Validators.required],
       includeUnnecessary: [true],
       minValue: [''],
       maxValue: [''],
@@ -102,8 +103,8 @@ export class ExpenseListComponent implements OnInit{
       expenseId: ['']
     })
     this.selectedValue = this.filters[0];
-    this.originalStart = this.form.value.startDate;
-    this.originalEnd = this.form.value.endDate;
+    this.originalStart = this.form.value.startDate.valueOf();
+    this.originalEnd = this.form.value.endDate.valueOf();
   }
 
   async ngOnInit(): Promise<void> {
@@ -115,7 +116,7 @@ export class ExpenseListComponent implements OnInit{
 
   async submitForm() {
     const {startDate, endDate, includeUnnecessary, minValue, maxValue, sortBy} = this.form.value;
-    if (this.originalStart.valueOf() <= startDate.valueOf() && this.originalEnd.valueOf() >= endDate.valueOf()) {
+    if (this.originalStart <= startDate.valueOf() && this.originalEnd >= endDate.valueOf()) {
       this.expenses = this.originalExpenses.filter((expense) => (new Date(expense.whatTime)).valueOf() >= startDate.valueOf() && (new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59)).valueOf() >= (new Date(expense.whatTime)).valueOf());
       // the date range has either not changed or the start and end dates are within the original range, no need to query backend
     } else {
@@ -245,8 +246,18 @@ export class ExpenseListComponent implements OnInit{
   } ];
   }
 
-  getFileUrl() {
-    let fileUrl = '/api/expenses/exportCSV';
-    return fileUrl
-    }
+  downloadFile() {
+    const { startDate, endDate, minValue, maxValue, sortBy, includeUnnecessary } = this.form.value;
+    this.expenseService.downloadFile(startDate, endDate, minValue || 0, maxValue || -1, sortBy, includeUnnecessary).then(res => {
+      const filename = `budget_and_expenses.csv`;
+      let blob = new Blob([res],{type:'text/csv'});
+      saveAs(blob, filename);
+    
+      },
+      err => {
+        alert("Error while downloading the file.");
+        console.error(err);
+      }
+    );
+  }
 }
