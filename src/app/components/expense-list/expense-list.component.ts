@@ -249,10 +249,9 @@ export class ExpenseListComponent implements OnInit{
   downloadFile() {
     const { startDate, endDate, minValue, maxValue, sortBy, includeUnnecessary } = this.form.value;
     this.expenseService.downloadFile(startDate, endDate, minValue || 0, maxValue || -1, sortBy, includeUnnecessary).then(res => {
-      const filename = `budget_and_expenses.csv`;
+      const filename = `budget and expenses.csv`;
       let blob = new Blob([res],{type:'text/csv'});
       saveAs(blob, filename);
-    
       },
       err => {
         alert("Error while downloading the file.");
