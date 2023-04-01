@@ -167,8 +167,11 @@ svg#clouds {
   #signout {
     right: 20px;
     font-size: 12px;
-    height: 25px;
-    top: 19.5px;
+    height: fit-content;
+    min-width: 0px;
+    width: 34px;
+    top: 18px;
+    padding: 0px;
   }
   .menu__item {
     font-size: 16px;
