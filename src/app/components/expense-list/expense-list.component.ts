@@ -200,14 +200,28 @@ export class ExpenseListComponent implements OnInit{
   submitChanges() {
     const { price, whatTime, whatFor, necessary, expenseId } = this.expenseViewForm.value;
     if (this.expenseService.validateExpense(Number(price), whatFor, whatTime) && expenseId != null && typeof expenseId == 'number') {
-      this.expenseService.updateExpense(Number(price), whatFor, whatTime, necessary, expenseId).subscribe(() => window.location.reload())
+      this.expenseService.updateExpense(Number(price), whatFor, whatTime, necessary, expenseId).subscribe((val) => val.successful ? this.updateExpenses(expenseId, val.updatedExpense) : alert("Something was wrong with the request, please try again"));
     } else {
-      alert("Error validating fields, please try again later");
+      alert("Error validating fields, please try again");
     }
+    this.showModal = false;
+    this.edit = false;
+  }
+
+  updateExpenses(expenseId: number, newExpense: Expense) {
+    this.expenses.forEach((expense, i) => {
+      if (expense.id == expenseId) {
+        this.expenses.splice(i, 1, newExpense);
+      }
+    });
+    this.setChartValues();
   }
 
   deleteExpense() {
-    this.expenseService.deleteExpense(this.expenseViewForm.value.expenseId).subscribe(() => window.location.reload())
+    this.expenseService.deleteExpense(this.expenseViewForm.value.expenseId).subscribe(() => alert("Successfully Deleted Expense"));
+    this.expenses.forEach((expense, i) => expense.id == this.expenseViewForm.value.expenseId ? this.expenses.splice(i, 1) : null);
+    this.showModal = false;
+    this.setChartValues();
   }
 
   async setExpenses(startDate: Date, endDate: Date) {
@@ -251,7 +265,6 @@ export class ExpenseListComponent implements OnInit{
     }
     this.topThreeChartLabels.push([expense[0][0].toUpperCase() + expense[0].slice(1)]);
     this.topThreeChartDatasets[0].data.push(expense[1]);
-    console.log('going through');
    });
    this.necVsUnnecChartDatasets[0].data = [ this.necessarySpending, this.unnecessarySpending ];
   }

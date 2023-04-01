@@ -1,7 +1,7 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom, map } from 'rxjs';
-import { Expense, SuccessResponseModel } from 'definitions';
+import { Expense, SuccessResponseModel, UpdateResponseModel } from 'definitions';
 
 @Injectable()
 export class ExpenseService {
@@ -30,7 +30,7 @@ export class ExpenseService {
   }
 
   updateExpense(price: number, whatFor: string, whatTime: Date, necessary: boolean, expenseId: number) {
-    return this.http.put<SuccessResponseModel>('api/expenses/update', { price, whatFor, whatTime, necessary, expenseId })
+    return this.http.put<UpdateResponseModel>('api/expenses/update', { price, whatFor, whatTime, necessary, expenseId })
   }
 
   deleteExpense(expenseId: number) {

@@ -72,7 +72,7 @@
                         <span class="information">{{expense.necessary ? 'Yes' : 'No'}}</span>
                         <span class="information">{{expense.whatTime}}</span>
                     </div>
-                    <div *ngIf="expenses.length == 0" style="display: flex; text-align: center; justify-content: center; align-items: center; font-size: x-large; font-weight: 400; margin: auto;">There Are Currently No Expenses For This Month</div>
+                    <div *ngIf="expenses.length == 0" style="display: flex; text-align: center; justify-content: center; align-items: center; font-size: x-large; font-weight: 400; margin: auto;">There Are Currently No Expenses That Match The Given Criteria</div>
         </div>
         <div class="totalspending"><!-- This will be a little infographic containing where things were spent probably showing no more than 10 categories and top five expenses -->
             <canvas baseChart

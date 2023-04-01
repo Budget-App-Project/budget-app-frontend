@@ -22,6 +22,11 @@ interface SuccessResponseModel {
 
 interface TotalSpendingByExpense {
     [index: string]: number;
-  }
+}
 
-export {User, SignUpUser, Expense, SuccessResponseModel, TotalSpendingByExpense }
+interface UpdateResponseModel {
+    successful: boolean;
+    updatedExpense: Expense;
+}
+
+export {User, SignUpUser, Expense, SuccessResponseModel, TotalSpendingByExpense, UpdateResponseModel }
