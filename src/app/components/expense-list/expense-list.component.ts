@@ -178,7 +178,6 @@ export class ExpenseListComponent implements OnInit{
   }
 
   editFields() {
-    console.log(this.editGroup.value.price);
     this.expenseViewForm.controls['price'].enable();
     this.expenseViewForm.controls['whatFor'].enable();
     this.expenseViewForm.controls['whatTime'].enable();
@@ -255,7 +254,6 @@ export class ExpenseListComponent implements OnInit{
       },
       err => {
         alert("Error while downloading the file.");
-        console.error(err);
       }
     );
   }
