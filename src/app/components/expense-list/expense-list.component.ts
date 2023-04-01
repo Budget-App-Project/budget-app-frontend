@@ -49,14 +49,14 @@ export class ExpenseListComponent implements OnInit{
     plugins: {
       title: {
         display: true,
-        text: 'Top Three Expenses',
+        text: 'Top Expenses',
         color: 'black'
       }
     },
   };
   topThreeChartLabels = [ [''] ];
   topThreeChartDatasets = [ {
-    data: [ 0 ],
+    data: [ 0, 0, 0, 0 ],
     backgroundColor: ['blue', 'purple', 'darkred', 'darkgray'],
   } ];
   // necessary vs unnecessary chart
@@ -220,6 +220,11 @@ export class ExpenseListComponent implements OnInit{
     this.totalSpendingByExpense = {};
     this.necessarySpending = 0;
     this.orderedExpenses = [];
+    this.topThreeChartLabels = [];
+    this.topThreeChartDatasets = [ {
+      data: [],
+      backgroundColor: [],
+    } ];
     this.expenses.reduce((acc, currVal) => {
       this.totalSpending += currVal.price;
       if (this.totalSpendingByExpense[currVal.whatFor.toLowerCase()] == undefined) {
@@ -236,13 +241,19 @@ export class ExpenseListComponent implements OnInit{
    for (let expense in this.totalSpendingByExpense) {
      this.orderedExpenses.push([expense, this.totalSpendingByExpense[expense]])
    }
-   this.orderedExpenses.sort((first, sec) => first[1] > sec[1] ? -1 : first[1] < sec[1] ? 1 : 0)
-   this.topThreeChartLabels = [ [this.orderedExpenses[0][0][0].toUpperCase() + this.orderedExpenses[0][0].slice(1)], [this.orderedExpenses[1][0][0].toUpperCase() + this.orderedExpenses[1][0].slice(1)], [this.orderedExpenses[2][0][0].toUpperCase() + this.orderedExpenses[2][0].slice(1)], ['Other'] ];
-   this.topThreeChartDatasets[0].data = [ this.orderedExpenses[0][1], this.orderedExpenses[1][1], this.orderedExpenses[2][1], this.totalSpending - this.orderedExpenses[0][1] - this.orderedExpenses[1][1] - this.orderedExpenses[2][1] ];
-   this.necVsUnnecChartDatasets = [ {
-    data: [ this.necessarySpending, this.unnecessarySpending ],
-    backgroundColor: ['darkgreen', 'darkred' ]
-  } ];
+   this.orderedExpenses = this.orderedExpenses.sort((first, sec) => first[1] > sec[1] ? -1 : first[1] < sec[1] ? 1 : 0).slice(0, 3);
+   this.orderedExpenses.forEach((expense, i) => {
+    this.topThreeChartDatasets[0].backgroundColor.push(i == 3 ? "darkgray" : i == 2 ? "darkred" : i == 1 ? "purple" : "blue");
+    if (i === 3) {
+      this.topThreeChartLabels.push(['Other']);
+      this.topThreeChartDatasets[0].data.push(this.totalSpending - this.orderedExpenses[0][1] - this.orderedExpenses[1][1] - this.orderedExpenses[2][1]);
+      return;
+    }
+    this.topThreeChartLabels.push([expense[0][0].toUpperCase() + expense[0].slice(1)]);
+    this.topThreeChartDatasets[0].data.push(expense[1]);
+    console.log('going through');
+   });
+   this.necVsUnnecChartDatasets[0].data = [ this.necessarySpending, this.unnecessarySpending ];
   }
 
   downloadFile() {
@@ -256,5 +267,6 @@ export class ExpenseListComponent implements OnInit{
         alert("Error while downloading the file.");
       }
     );
+    this.showFilters = false;
   }
 }
