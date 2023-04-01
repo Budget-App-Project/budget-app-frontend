@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { shareReplay, tap } from 'rxjs/operators';
-import { User, SignUpUser } from 'src/assets/definitions';
+import { User, SignUpUser } from 'definitions';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 

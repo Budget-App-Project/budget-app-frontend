@@ -1,7 +1,7 @@
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom, map } from 'rxjs';
-import { Expense, SuccessResponseModel } from 'src/assets/definitions';
+import { Expense, SuccessResponseModel } from 'definitions';
 
 @Injectable()
 export class ExpenseService {

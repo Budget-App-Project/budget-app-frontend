@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from 'src/app/services/expense.service';
-import { Expense, TotalSpendingByExpense } from 'src/assets/definitions';
+import { Expense, TotalSpendingByExpense } from 'definitions';
 import { firstValueFrom } from 'rxjs';
 import { ChartOptions } from 'chart.js';
 import { saveAs } from 'file-saver';
