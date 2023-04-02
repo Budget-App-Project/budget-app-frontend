@@ -23,6 +23,7 @@ export class ExpenseListComponent implements OnInit{
   showFilters: boolean = false;
   showModal: boolean = false;
   edit: boolean = false;
+  showEmpty: boolean = false;
   originalStart: string;
   originalEnd: string;
   filters: string[] = [
@@ -267,6 +268,7 @@ export class ExpenseListComponent implements OnInit{
     this.topThreeChartDatasets[0].data.push(expense[1]);
    });
    this.necVsUnnecChartDatasets[0].data = [ this.necessarySpending, this.unnecessarySpending ];
+   this.expenses.length == 0 ? this.showEmpty = true : this.showEmpty = false;
   }
 
   downloadFile() {
